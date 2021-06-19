@@ -1,39 +1,28 @@
-<style>
-    a {
-        text-decoration: none;
-    }
-
-    /* Отменяем подчеркивание у ссылки */
-</style>
-<div class="card">
+<div class="card" data-id="{{ recipe.id }}">
     {% load thumbnail %}
     {% thumbnail recipe.image "364x240" crop="center" upscale=True as im %}
-    <img class="card-img" src="{{ im.url }}" />
+    <a href="/{{ recipe.author }}/{{ recipe.id }}/"><img class="card-img" src="{{ im.url }}" alt="картинка"></a>
     {% endthumbnail %}
     <div class="card__body">
-        <a class="card__title link" href="#" target="_blank">{{ recipe.title }}</a>
+        <a class="card__title link" href="/{{ recipe.author }}/{{ recipe.id }}/">{{ recipe.title }}</a>
         <ul class="card__items">
             <li class="card__item">
                 {% for tag in recipe.tag.all %}
-                {% if tag.title == 'Завтрак' %}
-                <span class="badge badge_style_orange">{{ tag }}</span>
-                {% elif tag.title == 'Обед' %}
-                <span class="badge badge_style_green">{{ tag }}</span>
-                {% else %}
-                <span class="badge badge_style_purple">{{ tag }}</span>
-                {% endif %}
+                <span class="badge badge_style_{{ tag.color }}">{{ tag.title }}</span>
                 {% endfor %}
             </li>
         </ul>
         <div class="card__items card__items_column">
-            <p class="card__text"><span class="icon-time"></span> {{ recipe.cooking_time }} мин.</p>
+            <p class="card__text"><span class="icon-time"></span>
+                {{ recipe.cooking_time }} мин.
+            </p>
             <p class="card__text"><span class="icon-user"></span>
-                <a href="#" style="color: black">{{ recipe.author }}</a>
+                <a href="/{{ recipe.author }}/" style="color: black; text-decoration: none">{{ recipe.author }}</a>
             </p>
         </div>
     </div>
     <div class="card__footer">
-        <button class="button button_style_light-blue" name="purchases" data-out><span
-                class="icon-plus button__icon"></span>Добавить в покупки</button>
+        {% include 'buttons/purchase.html' with index=True %}
+        {% include 'buttons/favorite.html' %}
     </div>
 </div>
