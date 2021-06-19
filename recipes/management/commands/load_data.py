@@ -12,10 +12,7 @@ class Command(BaseCommand):
         with open('recipes/data/ingredients.csv', encoding='utf-8') as file:
             file_reader = csv.reader(file)
             for row in file_reader:
-                try:
-                    title, dimension = row
-                    Ingredient.objects.get_or_create(
-                        title=title, dimension=dimension)
-                except BaseException:
-                    return 'Data have bad format'
+                title, dimension = row
+                Ingredient.objects.get_or_create(
+                    title=title, dimension=dimension)
             print('Data is loaded')
