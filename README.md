@@ -44,4 +44,3 @@ docker-compose exec web python manage.py collectstatic --no-input
 ```
 
 # Сайт доступен по адресу: 127.0.0.1:8000
-
