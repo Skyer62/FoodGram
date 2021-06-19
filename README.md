@@ -38,9 +38,14 @@ docker-compose exec web python3 manage.py migrate --noinput
 
 5. Создайте superuser и соберите статику:
 ```sh
-docker-compose exec web python manage.py createsuperuser
+docker-compose exec web python3 manage.py createsuperuser
 
-docker-compose exec web python manage.py collectstatic --no-input 
+docker-compose exec web python3 manage.py collectstatic --no-input 
+```
+
+6. Загрузите тестовые данные:
+```sh
+docker-compose exec web python3 manage.py loaddata fixtures.json
 ```
 
 # Сайт доступен по адресу: 127.0.0.1:8000
