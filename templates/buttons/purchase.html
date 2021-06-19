@@ -1,0 +1,20 @@
+{% if user.is_authenticated %}
+{% load active_filters %}
+{% if recipe|is_purchase:user %}
+<button class="button button_style_light-blue-outline" name="purchases"><span class="icon-check button__icon">
+    </span> Рецепт добавлен
+</button>
+{% else %}
+<button class="{% if index %}button button_style_light-blue{% else %}button button_style_blue{% endif %}"
+    name="purchases" data-out>
+    <span class="icon-plus"></span> Добавить в покупки
+</button>
+{% endif %}
+{% else %}
+<a href="/auth/login/">
+    <button class="{% if index %}button button_style_light-blue{% else %}button button_style_blue{% endif %}">
+        <span class="icon-plus"></span>
+        Добавить в покупки
+    </button>
+</a>
+{% endif %}
