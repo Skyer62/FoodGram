@@ -7,8 +7,8 @@ User = get_user_model()
 
 class Ingredient(models.Model):
     title = models.CharField('Название', max_length=256, null=True, blank=True)
-    dimension = models.PositiveIntegerField(
-        'Единицы измерения', null=True, blank=True)
+    dimension = models.CharField(
+        'Единицы измерения', max_length=32, null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.title}, {self.dimension}'
