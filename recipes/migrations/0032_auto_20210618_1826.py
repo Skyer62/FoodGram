@@ -18,6 +18,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tag',
             name='slug',
-            field=models.SlugField(blank=True, max_length=100, null=True, unique=True),
+            field=models.SlugField(
+                blank=True,
+                max_length=100,
+                null=True,
+                unique=True),
         ),
     ]

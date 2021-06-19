@@ -14,6 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ingredient',
             name='unit',
-            field=models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1)], verbose_name='Единицы измерения'),
+            field=models.PositiveIntegerField(
+                validators=[
+                    django.core.validators.MinValueValidator(1)],
+                verbose_name='Единицы измерения'),
         ),
     ]

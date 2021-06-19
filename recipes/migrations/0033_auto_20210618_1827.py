@@ -13,16 +13,28 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tag',
             name='color',
-            field=models.CharField(blank=True, max_length=15, null=True, verbose_name='Цвет'),
+            field=models.CharField(
+                blank=True,
+                max_length=15,
+                null=True,
+                verbose_name='Цвет'),
         ),
         migrations.AlterField(
             model_name='tag',
             name='slug',
-            field=models.SlugField(blank=True, max_length=100, null=True, unique=True, verbose_name='Идентификатор'),
+            field=models.SlugField(
+                blank=True,
+                max_length=100,
+                null=True,
+                unique=True,
+                verbose_name='Идентификатор'),
         ),
         migrations.AlterField(
             model_name='tag',
             name='title',
-            field=models.CharField(max_length=64, unique=True, verbose_name='Названание'),
+            field=models.CharField(
+                max_length=64,
+                unique=True,
+                verbose_name='Названание'),
         ),
     ]

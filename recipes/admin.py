@@ -1,8 +1,7 @@
-from api.views import Favorite, Ingredient
-from django import forms
 from django.contrib import admin
-from .models import Ingredient, Recipe, IngredientRecipe, \
-    ShoppingList, Tag, Subscription, Favorite
+
+from .models import (Favorite, Ingredient, IngredientRecipe, Recipe,
+                     ShoppingList, Subscription, Tag)
 
 
 class IngredientRecipeInLine(admin.TabularInline):

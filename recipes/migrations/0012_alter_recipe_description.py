@@ -13,6 +13,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='recipe',
             name='description',
-            field=models.TextField(blank=True, max_length=1000, verbose_name='Описание'),
+            field=models.TextField(
+                blank=True,
+                max_length=1000,
+                verbose_name='Описание'),
         ),
     ]

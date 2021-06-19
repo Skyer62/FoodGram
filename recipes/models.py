@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.shortcuts import get_object_or_404
 
 User = get_user_model()
@@ -26,7 +26,8 @@ class Tag(models.Model):
 
 class Recipe(models.Model):
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name='Автор', related_name="recipes")
+        User, on_delete=models.CASCADE,
+        verbose_name='Автор', related_name='recipes')
     title = models.CharField('Название рецепта', max_length=255)
     description = models.TextField('Описание', max_length=1000)
     cooking_time = models.PositiveIntegerField('Время приготовления(мин)')
@@ -43,7 +44,8 @@ class IngredientRecipe(models.Model):
     ingredient = models.ForeignKey(
         Ingredient, on_delete=models.CASCADE, verbose_name='Ингредиент')
     recipe = models.ForeignKey(
-        Recipe, on_delete=models.CASCADE, verbose_name='Рецепт', related_name='ingredients_recipe')
+        Recipe, on_delete=models.CASCADE,
+        verbose_name='Рецепт', related_name='ingredients_recipe')
     value = models.FloatField('Количество', max_length=32)
 
     def add_ingredient(self, recipe_id, title, amount):
@@ -52,15 +54,16 @@ class IngredientRecipe(models.Model):
                                           ingredient=ingredient, amount=amount)
 
     def __str__(self) -> str:
-        return f'{self.ingredient.title} - {"%g" % self.value} {self.ingredient.dimension}'
+        return f'{self.ingredient.title} - {"%g" % self.value} \
+        {self.ingredient.dimension}'
 
 
 class Subscription(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE,
-                               related_name="following",
+                               related_name='following',
                                verbose_name='Автор')
     user = models.ForeignKey(User, on_delete=models.CASCADE,
-                             related_name="follower",
+                             related_name='follower',
                              verbose_name='Подписчик')
 
     class Meta:
@@ -76,7 +79,7 @@ class ShoppingList(models.Model):
                              related_name='user_sl',
                              verbose_name='Пользователь')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
-                               related_name="recipe_sl",
+                               related_name='recipe_sl',
                                verbose_name='Рецепт')
 
     def __str__(self):
@@ -85,10 +88,10 @@ class ShoppingList(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
-                             related_name="follower_recipe",
+                             related_name='follower_recipe',
                              verbose_name='Пользователь')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
-                               related_name="follow_recipe",
+                               related_name='follow_recipe',
                                verbose_name='Рецепт')
 
     def __str__(self):

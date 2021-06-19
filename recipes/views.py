@@ -1,22 +1,20 @@
-from foodgram import settings
-from api.views import Favorite
-from recipes.utils import get_ingredients, get_tags
-from recipes.forms import RecipeForm
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Ingredient, Recipe, ShoppingList, Subscription, \
-    User, IngredientRecipe, Favorite, Tag
-from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from django.db import transaction
-
-from django.http import HttpResponse
+from django.core.paginator import Paginator
 from django.db.models import Sum
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from foodgram import settings
+
+from recipes.forms import RecipeForm
+from recipes.utils import get_ingredients, get_tags
+
+from .models import (Ingredient, IngredientRecipe, Recipe, ShoppingList,
+                     Subscription, Tag, User)
 
 
 def index(request):
     recipes = Recipe.objects.all()
-    tags = request.GET.getlist("tags")
+    tags = request.GET.getlist('tags')
     if tags:
         recipes = recipes.filter(tag__slug__in=tags).distinct().all()
     paginator = Paginator(recipes, settings.POSTS__PER_PAGE)
@@ -24,16 +22,16 @@ def index(request):
     page = paginator.get_page(page_number)
     all_tags = Tag.objects.all()
     return render(request, 'index.html',
-                  {"page": page,
-                   "paginator": paginator,
-                   "all_tags": all_tags})
+                  {'page': page,
+                   'paginator': paginator,
+                   'all_tags': all_tags})
 
 
 def recipe_view(request, username, recipe_id):
     recipe = get_object_or_404(Recipe, author__username=username, id=recipe_id)
     ingredients = IngredientRecipe.objects.filter(recipe=recipe)
-    return render(request, "singleCard.html", {"recipe": recipe,
-                                               "ingredients": ingredients})
+    return render(request, 'singleCard.html', {'recipe': recipe,
+                                               'ingredients': ingredients})
 
 
 @login_required
@@ -76,7 +74,7 @@ def change_recipe(request, recipe_id, username):
                       files=request.FILES or None, instance=recipe)
     if request.user != recipe.author:
         return redirect('/')
-    if request.method == "POST":
+    if request.method == 'POST':
         ingredients = get_ingredients(request)
         tags = get_tags(request.POST)
         if not ingredients:
@@ -101,7 +99,8 @@ def change_recipe(request, recipe_id, username):
                 ing_recipe.save()
             form.save_m2m()
             return redirect('/')
-    return render(request, 'changeRecipe.html', {'form': form, 'recipe': recipe})
+    return render(request, 'changeRecipe.html', {
+                  'form': form, 'recipe': recipe})
 
 
 @login_required
@@ -118,7 +117,7 @@ def follow_index(request):
     paginator = Paginator(subscriptions, settings.POSTS__PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(request, "myFollow.html",
+    return render(request, 'myFollow.html',
                   {'page': page,
                    'paginator': paginator})
 
@@ -126,7 +125,7 @@ def follow_index(request):
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     recipes = Recipe.objects.filter(author=author)
-    tags = request.GET.getlist("tags")
+    tags = request.GET.getlist('tags')
     if tags:
         recipes = recipes.filter(tag__slug__in=tags).distinct().all()
     paginator = Paginator(recipes, settings.POSTS__PER_PAGE)
@@ -135,16 +134,16 @@ def profile(request, username):
     all_tags = Tag.objects.all()
     recipe = page[0]
     return render(request, 'profile.html',
-                  {"page": page,
-                   "paginator": paginator,
-                   "recipe": recipe,
-                   "all_tags": all_tags})
+                  {'page': page,
+                   'paginator': paginator,
+                   'recipe': recipe,
+                   'all_tags': all_tags})
 
 
 @login_required
 def favorites(request):
     recipes = Recipe.objects.filter(follow_recipe__user=request.user).all()
-    tags = request.GET.getlist("tags")
+    tags = request.GET.getlist('tags')
     if tags:
         recipes = recipes.filter(tag__slug__in=tags).distinct().all()
     paginator = Paginator(recipes, settings.POSTS__PER_PAGE)
@@ -152,16 +151,16 @@ def favorites(request):
     page = paginator.get_page(page_number)
     all_tags = Tag.objects.all()
     return render(request, 'favorite.html',
-                  {"page": page,
-                   "paginator": paginator,
-                   "all_tags": all_tags})
+                  {'page': page,
+                   'paginator': paginator,
+                   'all_tags': all_tags})
 
 
 @login_required
 def shoplist(request):
     shoplist = ShoppingList.objects.filter(user=request.user).all()
     return render(request, 'shopList.html',
-                  {"shoplist": shoplist})
+                  {'shoplist': shoplist})
 
 
 @login_required
@@ -170,7 +169,7 @@ def shoplist_download(request):
     ingredients = recipes.values(
         'ingredients__title', 'ingredients__dimension'
     ).annotate(total_value=Sum('ingredients_recipe__value'))
-    data = ""
+    data = ''
 
     for item in ingredients:
         line = ' '.join(str(value) for value in item.values())
@@ -187,8 +186,8 @@ def about_author(request):
 
 
 def page_not_found(request, exception):
-    return render(request, "misc/404.html", {"path": request.path}, status=404)
+    return render(request, 'misc/404.html', {'path': request.path}, status=404)
 
 
 def server_error(request):
-    return render(request, "misc/500.html", status=500)
+    return render(request, 'misc/500.html', status=500)

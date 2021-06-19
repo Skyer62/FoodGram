@@ -13,11 +13,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ingredients',
             name='dimension',
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='Единицы измерения'),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name='Единицы измерения'),
         ),
         migrations.AlterField(
             model_name='ingredients',
             name='title',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='Название'),
+            field=models.CharField(
+                blank=True,
+                max_length=256,
+                null=True,
+                verbose_name='Название'),
         ),
     ]

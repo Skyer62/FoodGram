@@ -1,6 +1,8 @@
-from django.core.management.base import BaseCommand
-from recipes.models import Ingredient
 import csv
+
+from django.core.management.base import BaseCommand
+
+from recipes.models import Ingredient
 
 
 class Command(BaseCommand):
@@ -14,6 +16,6 @@ class Command(BaseCommand):
                     title, dimension = row
                     Ingredient.objects.get_or_create(
                         title=title, dimension=dimension)
-                except:
+                except BaseException:
                     return 'Data have bad format'
             print('Data is loaded')
