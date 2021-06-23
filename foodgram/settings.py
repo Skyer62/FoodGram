@@ -10,7 +10,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY_SETTINGS') or 'example'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['84.252.136.83', 'localhost',
+ALLOWED_HOSTS = ['84.252.136.83', 'localhost', 'web',
                  'yapraktikumsky.tk', 'www.yapraktikumsky.tk']
 
 
