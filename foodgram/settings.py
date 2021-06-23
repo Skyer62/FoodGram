@@ -10,7 +10,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY_SETTINGS')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '84.252.136.83', '0.0.0.0']
+ALLOWED_HOSTS = ['84.252.136.83', 'localhost',
+                 'yapraktikumsky.tk', 'www.yapraktikumsky.tk']
 
 
 INSTALLED_APPS = [
