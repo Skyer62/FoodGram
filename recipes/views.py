@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import View
 from foodgram import settings
 
 from recipes.forms import RecipeForm
@@ -34,47 +35,58 @@ def recipe_view(request, username, recipe_id):
                                                'ingredients': ingredients})
 
 
-@login_required
-def create_recipe(request):
-    user = User.objects.get(username=request.user)
-    if request.method == 'POST':
-        form = RecipeForm(request.POST or None, files=request.FILES or None)
-        ingredients = get_ingredients(request)
-        tags = get_tags(request.POST)
-        if not ingredients:
-            form.add_error(None, 'Добавьте ингредиенты')
-        elif not tags:
-            form.add_error(None, 'Добавьте теги')
-        elif form.is_valid():
+class RecipeCreateChange(View):
+    def get(self, request, recipe_id=None, username=None):
+        if recipe_id:
+            recipe = get_object_or_404(Recipe, id=recipe_id)
+            form = RecipeForm(instance=recipe)
+            title = 'Редактирование рецепта'
+            bottom = 'Сохранить'
+            context = {
+                'form': form,
+                'bottom': bottom,
+                'title': title,
+                'recipe': recipe,
+            }
+        else:
+            form = RecipeForm()
+            title = 'Создание рецепта'
+            bottom = 'Создать рецепт'
+            context = {
+                'form': form,
+                'bottom': bottom,
+                'title': title
+            }
+        template = 'createChangeRecipe.html'
+        return render(request, template, context)
+
+    def post(self, request, recipe_id=None, username=None):
+        if recipe_id:
+            recipe = get_object_or_404(Recipe, id=recipe_id)
+            recipe.tag.set('')
+            if request.user != recipe.author:
+                return redirect('index')
+            form = RecipeForm(request.POST or None,
+                              files=request.FILES or None,
+                              instance=recipe)
+
+            context = {
+                'form': form,
+                'title': 'Редактирование рецепта',
+                'bottom': 'Сохранить',
+                'recipe': recipe
+            }
+
+        else:
+            form = RecipeForm(request.POST or None,
+                              files=request.FILES or None)
+            context = {
+                'form': form,
+                'title': 'Создание рецепта',
+                'bottom': 'Создать рецепт'
+            }
             recipe = form.save(commit=False)
-            recipe.author = user
-            recipe.save()
-            for tag in tags:
-                recipe.tag.add(tag)
-            recipe.save()
-            for title, value in ingredients.items():
-                ingredient = get_object_or_404(Ingredient, title=title)
-                ing_recipe = IngredientRecipe(
-                    recipe=recipe,
-                    ingredient=ingredient,
-                    value=value,
-                )
-                ing_recipe.save()
-            form.save_m2m()
-            return redirect('/')
-    else:
-        form = RecipeForm()
-    return render(request, 'createRecipe.html', {'form': form})
 
-
-@login_required
-def change_recipe(request, recipe_id, username):
-    recipe = get_object_or_404(Recipe, id=recipe_id)
-    form = RecipeForm(request.POST or None,
-                      files=request.FILES or None, instance=recipe)
-    if request.user != recipe.author:
-        return redirect('/')
-    if request.method == 'POST':
         ingredients = get_ingredients(request)
         tags = get_tags(request.POST)
         if not ingredients:
@@ -82,13 +94,13 @@ def change_recipe(request, recipe_id, username):
         elif not tags:
             form.add_error(None, 'Добавьте теги')
         elif form.is_valid():
+            recipe.author = request.user
+            recipe.save()
             for tag in tags:
                 recipe.tag.add(tag)
             recipe.save()
             IngredientRecipe.objects.filter(recipe=recipe).delete()
             recipe = form.save(commit=False)
-            recipe.author = request.user
-            recipe.save()
             for title, value in ingredients.items():
                 ingredient = get_object_or_404(Ingredient, title=title)
                 ing_recipe = IngredientRecipe(
@@ -98,9 +110,12 @@ def change_recipe(request, recipe_id, username):
                 )
                 ing_recipe.save()
             form.save_m2m()
-            return redirect('/')
-    return render(request, 'changeRecipe.html', {
-                  'form': form, 'recipe': recipe})
+
+            return redirect('index')
+        else:
+            form = RecipeForm()
+        return render(request, 'createChangeRecipe.html',
+                      context=context)
 
 
 @login_required
@@ -108,7 +123,7 @@ def delete_recipe(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     if request.user == recipe.author:
         recipe.delete()
-    return redirect('/')
+    return redirect('index')
 
 
 @login_required

@@ -6,7 +6,7 @@ from users.forms import EmailValidationOnForgotPassword
 from . import views
 
 urlpatterns = [
-    path('signup/', views.sign_up.as_view(), name='signup'),
+    path('signup/', views.SignUp.as_view(), name='signup'),
 
     path(
         'password_reset/',
