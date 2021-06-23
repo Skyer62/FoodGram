@@ -15,12 +15,15 @@ git clone https://github.com/vadim62/foodgram-project.git
 ```sh
 
 DB_ENGINE=django.db.backends.postgresql
-DB_NAME=postgres(example)
-POSTGRES_USER=postgres(example)
-POSTGRES_PASSWORD=postgres(example)
+DB_NAME=postgres (example)
+POSTGRES_USER=postgres (example)
+POSTGRES_PASSWORD=postgres (example)
 DB_HOST=db
 DB_PORT=5432
-SECRET_KEY=)ilz@4zqj=rq&agdol^##zgl9(vs(example)
+SECRET_KEY=)ilz@4zqj=rq&agdol^##zgl9(vs (example) # для базы данных
+EMAIL_HOST_USER=foodgarm@gmail.com (example)
+EMAIL_HOST_PASSWORD=12345678 (example)
+SECRET_KEY_SETTINGS=d^f2*nooy6nio_c)s(y7w#var_^x7k5l4f_)n^j
 
 ```
 3. Установите Docker(docker.com) и в корневой директории проекта выполните сборку и запуск контейнера:
