@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.shortcuts import get_object_or_404
-from django.core.validators import MinValueValidator
 
 User = get_user_model()
 
@@ -76,8 +76,7 @@ class IngredientRecipe(models.Model):
         verbose_name = 'Ингредиент для рецепта'
 
     def __str__(self) -> str:
-        return f'{self.ingredient.title} - {"%g" % self.value} \
-        {self.ingredient.dimension}'
+        return f'{self.ingredient.title} - {"%g" % self.value} {self.ingredient.dimension}'
 
 
 class Subscription(models.Model):

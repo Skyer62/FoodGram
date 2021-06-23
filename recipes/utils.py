@@ -13,13 +13,13 @@ def get_ingredients(request):
 
 
 def get_tags(post):
-    TAGS = {
+    tags = {
         'breakfast': 'Завтрак',
         'lunch': 'Обед',
         'dinner': 'Ужин'
     }
     tags = []
     for key, name in post.items():
-        if key in TAGS and name == 'on':
-            tags.append(Tag.objects.get(title=TAGS[key]))
+        if key in tags and name == 'on':
+            tags.append(Tag.objects.get(title=tags[key]))
     return tags
