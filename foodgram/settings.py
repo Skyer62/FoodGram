@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY_SETTINGS') or 'example'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['84.252.136.83', 'localhost', 'web',
                  'yapraktikumsky.tk', 'www.yapraktikumsky.tk']
@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': os.environ.get('DB_ENGINE') or 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME') or 'example',
         'USER': os.environ.get('POSTGRES_USER') or 'example',
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD') or 'example',
@@ -103,7 +103,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, './static/')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
