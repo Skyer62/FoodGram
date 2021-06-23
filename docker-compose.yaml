@@ -3,18 +3,17 @@ version: '3.8'
 
 services:
   db:
-    restart: always
     image: postgres:12.4
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - ./.env
 
   web:
     image:
-      skyer62/foodgram:latest
+      skyer62/yamdb_final:latest
     build: .
-    command: gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn api_yamdb.wsgi:application --bind 0.0.0.0:8000
     restart: always
     volumes:
       - static_value:/code/static/
@@ -25,7 +24,6 @@ services:
       - ./.env
 
   nginx:
-    restart: always
     image: nginx:1.19.3
     ports:
       - "80:80"
