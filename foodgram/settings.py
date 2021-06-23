@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY_SETTINGS') or 'example'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['84.252.136.83', 'localhost',
                  'yapraktikumsky.tk', 'www.yapraktikumsky.tk']
