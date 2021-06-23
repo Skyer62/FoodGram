@@ -76,7 +76,9 @@ class IngredientRecipe(models.Model):
         verbose_name = 'Ингредиент для рецепта'
 
     def __str__(self) -> str:
-        return f'{self.ingredient.title} - {"%g" % self.value} {self.ingredient.dimension}'
+        return '{} - {} {}'.format(self.ingredient.title,
+                                   "%g" % self.value,
+                                   self.ingredient.dimension)
 
 
 class Subscription(models.Model):
