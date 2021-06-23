@@ -23,11 +23,13 @@ jobs:
         cd api/
         flake8
         cd ../
+        cd recipes/
+        flake8
+        cd ../
+        cd users/
+        flake8
+        cd ../
         python manage.py test
-    - name: Pytest
-      run: |
-        cd ./
-        pytest
 
   build_and_push_to_docker_hub:
       name: Push Docker image to Docker Hub
