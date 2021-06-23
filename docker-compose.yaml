@@ -17,9 +17,9 @@ services:
     volumes:
       - static_value:/code/static
       - media_value:/code/media
-    command: gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - db
+    command: gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000
   nginx:
     image: nginx:1.19.3
     ports:

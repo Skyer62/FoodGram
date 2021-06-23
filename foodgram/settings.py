@@ -6,11 +6,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-al7d9c7k_6q3^f2*nooy6nio_c)s(y7w#var_^x7k5l4f_)n^j'
+SECRET_KEY = os.environ.get('SECRET_KEY_SETTINGS')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '84.252.136.83', '0.0.0.0']
 
 
 INSTALLED_APPS = [
@@ -119,7 +119,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yapraktikumsky@gmail.com'
-EMAIL_HOST_PASSWORD = '624790vadiM'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') or \
+    'yapraktikumsky@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_USER') or '624790vadiM'
 
 POSTS__PER_PAGE = 6

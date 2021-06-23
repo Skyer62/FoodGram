@@ -1,0 +1,5 @@
+<div class="tags__item">
+    <input {% if tag in form.instance.tag.all %}checked{% endif %} type="checkbox" name="{{ tag.slug }}"
+        id="id_{{ tag.slug }}" class="tags__checkbox tags__checkbox_style_{{ tag.color }}">
+    <label for="id_{{ tag.slug }}" class="tags__label">{{ tag.title }}</label>
+</div>

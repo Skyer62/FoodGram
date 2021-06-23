@@ -36,45 +36,27 @@ class Subscribes(LoginRequiredMixin, View):
         return JsonResponse({'success': True})
 
 
-class Purchases(LoginRequiredMixin, View):
+class PurchaseFavoriteMixin(LoginRequiredMixin, View):
+    model = None
+
     def post(self, request):
         recipe_id = json.loads(request.body)['id']
         if recipe_id:
             recipe = get_object_or_404(Recipe, id=recipe_id)
-            created = ShoppingList.objects.get_or_create(
-                recipe=recipe, user=request.user
-            )
-            if created:
-                return JsonResponse({'success': True})
-            return JsonResponse({'success': False})
+            self.model.objects.get_or_create(
+                user=self.request.user, recipe=recipe)
+            return JsonResponse({'success': True})
         return JsonResponse({'success': False}, status=400)
 
     def delete(self, request, recipe_id):
-        recipe = get_object_or_404(Recipe, id=recipe_id)
-        purchase = get_object_or_404(
-            ShoppingList, user=request.user, recipe=recipe)
-        purchase.delete()
+        self.model.objects.filter(
+            user=self.request.user, recipe=recipe_id).delete()
         return JsonResponse({'success': True})
 
 
-class Favorites(LoginRequiredMixin, View):
-    def post(self, request):
-        recipe_id = json.loads(request.body)['id']
-        if recipe_id:
-            recipe = get_object_or_404(Recipe, id=recipe_id)
-            created = Favorite.objects.get_or_create(
-                recipe=recipe, user=request.user
-            )
-            if created:
-                return JsonResponse({'success': True})
-            return JsonResponse({'success': False})
-        return JsonResponse({'success': False}, status=400)
+class Purchases(PurchaseFavoriteMixin):
+    model = ShoppingList
 
-    def delete(self, request, recipe_id):
-        user = get_object_or_404(
-            User, username=request.user.username
-        )
-        recipe = get_object_or_404(Recipe, id=recipe_id)
-        favorite = get_object_or_404(Favorite, user=user, recipe=recipe)
-        favorite.delete()
-        return JsonResponse({'success': True})
+
+class Favorites(PurchaseFavoriteMixin):
+    model = Favorite
