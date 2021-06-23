@@ -25,7 +25,7 @@ jobs:
         flake8
         cd ../
         cd recipes/
-        flake8
+        flake8 --extend-ignore=N806
         cd ../
         cd users/
         flake8
