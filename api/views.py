@@ -3,9 +3,10 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views import View
+from rest_framework.utils import json
+
 from recipes.models import (Favorite, Ingredient, Recipe, ShoppingList,
                             Subscription)
-from rest_framework.utils import json
 
 
 class Ingredients(LoginRequiredMixin, View):
