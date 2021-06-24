@@ -4,8 +4,8 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import View
-from foodgram import settings
 
+from foodgram import settings
 from recipes.forms import RecipeForm
 from recipes.utils import get_ingredients, get_tags
 
