@@ -22,7 +22,7 @@ jobs:
     - name: Test with flake8 and django tests
       run: |
         flake8 api/
-        flake8 recipec/ --extend-ignore=N806
+        flake8 recipes/ --extend-ignore=N806
         flake8 users/
         python manage.py test
 
