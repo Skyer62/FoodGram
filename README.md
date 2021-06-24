@@ -23,6 +23,7 @@ DB_HOST=db
 DB_PORT=5432
 SECRET_KEY=)ilz@4zqj=rq&agdol^##zgl9(vs (example) # для базы данных
 SECRET_KEY_SETTINGS=d^f2*nooy6nio_c)s(y7w#var_^x7k5l4f_)n^j
+EMAIL_HOST_PASSWORD=123123 (example) # пароль email
 
 ```
 3. Установите Docker(docker.com) и в корневой директории проекта выполните сборку и запуск контейнера:
@@ -42,7 +43,7 @@ docker-compose exec web python3 manage.py migrate --noinput
 ```sh
 docker-compose exec web python3 manage.py createsuperuser
 
-docker-compose exec web python3 manage.py collectstatic --no-input 
+docker-compose exec web python3 manage.py collectstatic --no-input
 ```
 
 6. Загрузите тестовые данные:

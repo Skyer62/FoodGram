@@ -120,6 +120,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yapraktikumsky@gmail.com'
-EMAIL_HOST_PASSWORD = '624790vadiM'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 POSTS__PER_PAGE = 6

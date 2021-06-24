@@ -63,7 +63,6 @@ class RecipeCreateChange(View):
     def post(self, request, recipe_id=None, username=None):
         if recipe_id:
             recipe = get_object_or_404(Recipe, id=recipe_id)
-            recipe.tag.set('')
             if request.user != recipe.author:
                 return redirect('index')
             form = RecipeForm(request.POST or None,
@@ -85,7 +84,6 @@ class RecipeCreateChange(View):
                 'title': 'Создание рецепта',
                 'bottom': 'Создать рецепт'
             }
-            recipe = form.save(commit=False)
 
         ingredients = get_ingredients(request)
         tags = get_tags(request.POST)
@@ -94,14 +92,21 @@ class RecipeCreateChange(View):
         elif not tags:
             form.add_error(None, 'Добавьте теги')
         elif form.is_valid():
+            recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
+            recipe.tag.set('')
             for tag in tags:
                 recipe.tag.add(tag)
             recipe.save()
-            IngredientRecipe.objects.filter(recipe=recipe).delete()
-            recipe = form.save(commit=False)
             for title, value in ingredients.items():
+                if value < 0.1:
+                    form.add_error(None, '''Количество ингредиента
+                                    должно быть положительно''')
+                    recipe.delete()
+                    return render(request, 'createChangeRecipe.html',
+                                  context=context)
+                IngredientRecipe.objects.filter(recipe=recipe).delete()
                 ingredient = get_object_or_404(Ingredient, title=title)
                 ing_recipe = IngredientRecipe(
                     recipe=recipe,
@@ -112,8 +117,6 @@ class RecipeCreateChange(View):
             form.save_m2m()
 
             return redirect('index')
-        else:
-            form = RecipeForm()
         return render(request, 'createChangeRecipe.html',
                       context=context)
 

@@ -64,7 +64,7 @@ class IngredientRecipe(models.Model):
         Recipe, on_delete=models.CASCADE,
         verbose_name='Рецепт', related_name='ingredients_recipe')
     value = models.FloatField('Количество', max_length=32,
-                              validators=[MinValueValidator(1)])
+                              validators=[MinValueValidator(0.1)])
 
     def add_ingredient(self, recipe_id, title, amount):
         ingredient = get_object_or_404(Ingredient, title=title)

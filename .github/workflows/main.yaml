@@ -68,6 +68,7 @@ jobs:
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           echo SECRET_KEY="${{ secrets.DB_SECRET_KEY }}" >> .env
           echo SECRET_KEY_SETTINGS="${{ secrets.SECRET_KEY_SETTINGS }}" >> .env
+          echo SECRET_KEY_SETTINGS="${{ secrets.EMAIL_HOST_PASSWORD }}" >> .env
 
   deploy:
     runs-on: ubuntu-latest
