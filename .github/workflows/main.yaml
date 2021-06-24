@@ -21,15 +21,9 @@ jobs:
 
     - name: Test with flake8 and django tests
       run: |
-        cd api/
-        flake8
-        cd ../
-        cd recipes/
-        flake8 --extend-ignore=N806
-        cd ../
-        cd users/
-        flake8
-        cd ../
+        flake8 api/
+        flake8 recipec/ --extend-ignore=N806
+        flake8 users/
         python manage.py test
 
   build_and_push_to_docker_hub:
