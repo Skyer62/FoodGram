@@ -52,3 +52,4 @@ docker-compose exec web python3 manage.py loaddata fixtures.json
 ```
 
 # Сайт доступен по адресу: http://yapraktikumsky.tk/
+# Админка для тестов: admin 123123admiN
