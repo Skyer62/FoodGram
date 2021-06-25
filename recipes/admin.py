@@ -13,6 +13,7 @@ class IngredientRecipeInLine(admin.TabularInline):
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'favorite_count')
     list_filter = ('title', 'author')
+    search_fields = ('author__username',)
     inlines = (IngredientRecipeInLine, )
 
     def favorite_count(self, recipe):
@@ -22,8 +23,9 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 class IngredientsAdmin(admin.ModelAdmin):
-    list_display = ('title',)
-    list_filter = ('title',)
+    list_display = ('title', 'dimension')
+    list_filter = ('title', 'dimension')
+    search_fields = ('title',)
 
 
 class IngredientRecipeAdmin(admin.ModelAdmin):
@@ -34,16 +36,18 @@ class IngredientRecipeAdmin(admin.ModelAdmin):
 class ShopListAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe')
     fields = ('user', 'recipe')
-
+    search_fields = ('user__username',)
 
 class FavoritesAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe')
     fields = ('user', 'recipe')
+    search_fields = ('user__username',)
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ('author', 'user')
     fields = ('author', 'user')
+    search_fields = ('author__username',)
 
 
 admin.site.register(Ingredient, IngredientsAdmin)
