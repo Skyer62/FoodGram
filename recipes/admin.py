@@ -38,6 +38,7 @@ class ShopListAdmin(admin.ModelAdmin):
     fields = ('user', 'recipe')
     search_fields = ('user__username',)
 
+
 class FavoritesAdmin(admin.ModelAdmin):
     list_display = ('user', 'recipe')
     fields = ('user', 'recipe')
