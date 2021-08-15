@@ -51,4 +51,4 @@ docker-compose exec web python3 manage.py collectstatic --no-input
 docker-compose exec web python3 manage.py loaddata fixtures.json
 ```
 
-# Сайт доступен по адресу: http://yapraktikumsky.tk/
+# Сайт доступен по адресу: http://127.0.0.1:8000/
